@@ -1,13 +1,13 @@
 class TripsController < ApplicationController
     def index 
         trips = Trip.all
-        render json: trips
-        # render json: TripSerializer.new(trips, {include: [:items]})
+        #render json: trips.to_json(except: [:created_at, :updated_at], include: {location: {only: [:city, :state]}})
+        render json: TripSerializer.new(trips, {include: [:location]})
     end
 
     def show
         trip = Trip.find_by_id(params[:id])
-        render json: trip
+        render json: trip.to_json(except: [:created_at, :updated_at], include: {location: {only: [:city, :state]}})
     end
 
     def create

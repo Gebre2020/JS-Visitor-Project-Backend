@@ -1,4 +1,5 @@
-class LocationSerializer < ActiveModel::Serializer
-  attributes :id, :city, :state
+class LocationSerializer
+  include FastJsonapi::ObjectSerializer
+  attributes :city, :state
   has_many :trips
 end

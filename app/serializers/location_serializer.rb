@@ -1,5 +1,5 @@
 class LocationSerializer
   include FastJsonapi::ObjectSerializer
-  attributes :city, :state
+  attributes :name
   has_many :trips
 end

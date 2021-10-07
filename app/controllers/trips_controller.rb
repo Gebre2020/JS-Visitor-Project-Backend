@@ -2,7 +2,7 @@ class TripsController < ApplicationController
     def index 
         trips = Trip.all
         #render json: trips.to_json(except: [:created_at, :updated_at], include: {location: {only: [:city, :state]}})
-        render json: TripSerializer.new(trips, {include: [:location]})
+        render json: TripSerializer.new(trips)
     end
 
     def show
@@ -11,12 +11,14 @@ class TripsController < ApplicationController
     end
 
     def create
+        # byebug
         trip = Trip.new(trip_params)
+        # trip.location = Location.last ## NEEDS TO CHANGE!!!
         # byebug
         if trip.save 
-            render json: trip
+            render json: TripSerializer.new(trip)
         else
-            render json: {error: "Couldnt be saved"}
+            render json: {error: "Couldn't be saved"}
         end
     end
 
@@ -36,7 +38,8 @@ class TripsController < ApplicationController
     end
 
     private
+
     def trip_params
-        params.require(:trip).permit(:name, :address, :budget, :location_id)
+        params.require(:trip).permit(:name, :address, :budget, :location_id, :location_name)
     end
 end

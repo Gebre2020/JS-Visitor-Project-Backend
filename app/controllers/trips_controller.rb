@@ -4,10 +4,10 @@ class TripsController < ApplicationController
         #render json: trips.to_json(except: [:created_at, :updated_at], include: {location: {only: [:city, :state]}})
         render json: TripSerializer.new(trips)
     end
-
+    
     def show
         trip = Trip.find_by_id(params[:id])
-        render json: trip.to_json(except: [:created_at, :updated_at], include: {location: {only: [:city, :state]}})
+        render json: TripSerializer.new(trip)
     end
 
     def create
@@ -25,7 +25,7 @@ class TripsController < ApplicationController
     def update
         trip = Trip.find_by_id(params[:id])
         if trip.update(trip_params)
-            render json: trip
+            render json: TripSerializer.new(trip)
         else
             render json: {error: "Couldn't Update"}
         end
